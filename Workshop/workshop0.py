@@ -91,26 +91,86 @@ print(f"The average hours spent on entertainment is {sum(entertainment_hours) / 
 # (c) Average hours spent sleeping.
 print(f"The average hours spent on sleeping is {sum(sleep_hours) / len(sleep_hours)} \n")
 
-# Task 5. Visualization - Study vs Sleep Pattern:
-# 1. Import matplotlib.pyplot as plt.
-import matplotlib.pyplot as plt
-# 2. Plot a scatter plot with:
-# • x-axis: Study hours
-study_hours = [item[0] for item in time_data]
-# print(study_hours)
+# # Task 5. Visualization - Study vs Sleep Pattern:
+# # 1. Import matplotlib.pyplot as plt.
+# import matplotlib.pyplot as plt
+# # 2. Plot a scatter plot with:
+# # • x-axis: Study hours
+# study_hours = [item[0] for item in time_data]
+# # print(study_hours)
 
-# • y-axis: Sleep hours
-sleep_hours = [item[2] for item in time_data]
-# print(sleep_hours)
+# # • y-axis: Sleep hours
+# sleep_hours = [item[2] for item in time_data]
+# # print(sleep_hours)
 
+# # plt.scatter(study_hours, sleep_hours, color='blue', marker='o')
+# # plt.show()
+
+# # 3. Add labels, title, and color.
 # plt.scatter(study_hours, sleep_hours, color='blue', marker='o')
+# plt.xlabel('Study Hours')
+# plt.ylabel('Sleep Hours')
+# plt.title('Study vs Sleep Pattern')
+# plt.grid(True)
+
 # plt.show()
 
-# 3. Add labels, title, and color.
-plt.scatter(study_hours, sleep_hours, color='blue', marker='o')
-plt.xlabel('Study Hours')
-plt.ylabel('Sleep Hours')
-plt.title('Study vs Sleep Pattern')
-plt.grid(True)
+# 8.1.1 Exercise - Recursion:
+# Task 1 - Sum of Nested Lists:
+# Scenario: You have a list that contains numbers and other lists of numbers (nested lists).
+# You want to find the total sum of all the numbers in this structure.
+# Task:
+# • Write a recursive function sum_nested_list(nested_list) that:
+# 1. Takes a nested list (a list that can contain numbers or other lists of numbers) as
+# input.
 
-plt.show()
+lis2 = []
+def nested_list(lis1):
+    for x in lis1:
+        if type(x) == list:
+            nested_list(x)
+        if type(x) != list:
+            lis2.append(x)
+    
+# 2. Sums all numbers at every depth level of the list, regardless of how deeply nested
+# the numbers are.
+    sum = 0
+    for x in lis2:
+        sum += x
+    return sum
+# • Test the function with a sample nested list, such as
+# nested_list = [1, [2, [3, 4], 5], 6, [7, 8]].
+        
+lis3 = [1,[2,[3,4],5],6,[7,8]]
+print(nested_list(lis3))
+
+
+# Task 2 - Generate All Permutations of a String:
+# Scenario: Given a string, generate all possible permutations of its characters. This is useful
+# for understanding backtracking and recursive depth-first search.
+# Task:
+# • Write a recursive function generate_permutations(s) that:
+# – Takes a string s as input and returns a list of all unique permutations.
+# • Test with strings like ”abc” and ”aab”.
+
+# print(generate_permutations("abc"))
+# # Should return [’abc’, ’acb’, ’bac’, ’bca’, ’cab’, ’cba’]
+
+def generate_permutations(s):
+    if len(s) == 1:
+        return [s]
+
+    permutations = []
+
+    for i in range(len(s)):
+        first_char = s[i]
+
+        remaining = s[:i] + s[i+1:]
+
+        for perm in generate_permutations(remaining):
+            permutations.append(first_char + perm)
+
+    return list(set(permutations))
+
+print(generate_permutations("abc"))
+print(generate_permutations("aab"))
