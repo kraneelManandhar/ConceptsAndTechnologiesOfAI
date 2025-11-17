@@ -174,3 +174,58 @@ def generate_permutations(s):
 
 print(generate_permutations("abc"))
 print(generate_permutations("aab"))
+
+
+# Task 3 - Directory Size Calculation:
+# Directory Size Calculation Scenario: Imagine a file system where directories can contain files
+# (with sizes in KB) and other directories. You want to calculate the total size of a directory,
+# including all nested files and subdirectories.
+
+# Sample directory structure.
+
+# # Sample directory structure
+# directory_structure = {
+# "file1.txt": 200,
+# "file2.txt": 300,
+# "subdir1": {
+# "file3.txt": 400,
+# "file4.txt": 100
+# },
+# "subdir2": {
+# "subsubdir1": {
+# "file5.txt": 250
+# },
+# "file6.txt": 150
+# }
+# }
+
+
+def calculate_directory_size(directory):
+    total = 0
+
+    for item in directory.values():
+        if isinstance(item, dict):
+            total += calculate_directory_size(item)
+        else:
+            total += item
+
+    return total
+
+
+#To test
+directory_structure = {
+    "file1.txt": 200,
+    "file2.txt": 300,
+    "subdir1": {
+        "file3.txt": 400,
+        "file4.txt": 100
+    },
+    "subdir2": {
+        "subsubdir1": {
+            "file5.txt": 250
+        },
+        "file6.txt": 150
+    }
+}
+
+print(calculate_directory_size(directory_structure))
