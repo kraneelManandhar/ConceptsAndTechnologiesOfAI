@@ -229,3 +229,124 @@ directory_structure = {
 }
 
 print(calculate_directory_size(directory_structure))
+
+# 8.2.1 Exercises - Dynamic Programming:
+# Task 1 - Coin Change Problem:
+# Scenario: Given a set of coin denominations and a target amount, find the minimum number
+# of coins needed to make the amount. If it’s not possible, return - 1.
+# Task:
+# 1. Write a function min_coins(coins, amount) that:
+# • Uses DP to calculate the minimum number of coins needed to make up the
+# amount.
+# 2. Test with coins = [1, 2, 5] and amount = 11. The result should be 3 (using coins
+# [5, 5, 1]).
+
+# Sample Code - Coin Change Problem.
+
+# def min_coins(coins, amount):
+# """
+# Finds the minimum number of coins needed to make up a given amount using dynamic
+# programming.
+# This function solves the coin change problem by determining the fewest number of
+# coins from a given set of coin denominations that sum up to a target amount. The
+# solution uses dynamic programming(tabulation) to iteratively build up the minimum
+# number of coins required for each amount.
+# Parameters:
+# coins (list of int): A list of coin denominations available for making change. Each
+# coin denomination is a positive integer.
+# 8.2.1 Exercises - Dynamic Programming:
+# Task 1 - Coin Change Problem:
+# Scenario: Given a set of coin denominations and a target amount, find the minimum number
+# of coins needed to make the amount. If it’s not possible, return - 1.
+# Task:
+# 1. Write a function min_coins(coins, amount) that:
+# • Uses DP to calculate the minimum number of coins needed to make up the
+# amount.
+# 2. Test with coins = [1, 2, 5] and amount = 11. The result should be 3 (using coins
+# [5, 5, 1]).
+
+# Sample Code - Coin Change Problem.
+
+# def min_coins(coins, amount):
+# """
+# Finds the minimum number of coins needed to make up a given amount using dynamic
+# programming.
+# This function solves the coin change problem by determining the fewest number of
+# coins from a given set of coin denominations that sum up to a target amount. The
+# solution uses dynamic programming(tabulation) to iteratively build up the minimum
+# number of coins required for each amount.
+# Parameters:
+# coins (list of int): A list of coin denominations available for making change. Each
+# coin denomination is a positive integer.
+
+
+def min_coins(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+
+coins = [1, 2, 5]
+amount = 11
+print(min_coins(coins, amount))
+
+# Task 2 - Longest Common Subsequence (LCS):
+# Scenario: Given two strings, find the length of their longest common subsequence (LCS).
+# This is useful in text comparison.
+# Task:
+# 1. Write a function longest_common_subsequence(s1, s2) that:
+# • Uses DP to find the length of the LCS of two strings s1 and s2.
+# 2. Test with strings like "abcde" and "ace"; the LCS length should be 3 ("ace").
+
+def longest_common_subsequence(s1, s2):
+    n, m = len(s1), len(s2)
+
+    dp = [[0] * (m + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+    return dp[n][m]
+
+print(longest_common_subsequence("abcde", "ace"))
+
+# Task 3 - 0/1 Knapsack Problem:
+# Scenario: You have a list of items, each with a weight and a value. Given a weight capacity,
+# maximize the total value of items you can carry without exceeding the weight capacity.
+# Task:
+# 1. Write a function knapsack(weights, values, capacity) that:
+# • Uses DP to determine the maximum value that can be achieved within the given
+# weight capacity.
+
+# 2. Test with weights [1, 3, 4, 5], values [1, 4, 5, 7], and capacity 7. The re-
+# sult should be 9.
+
+def knapsack(weights, values, capacity):
+    n = len(weights)
+
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+
+            if weights[i - 1] <= w:
+                include = values[i - 1] + dp[i - 1][w - weights[i - 1]]
+
+                exclude = dp[i - 1][w]
+
+                dp[i][w] = max(include, exclude)
+            else:
+                dp[i][w] = dp[i - 1][w]
+
+    return dp[n][capacity]
